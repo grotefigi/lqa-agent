@@ -2,7 +2,7 @@
   "provider": "nebius",
   "source_lang": "ro",
   "target_lang": "en",
-  "score": 71.1,
+  "score": 72.7,
   "counts": {
     "pass": 1,
     "review": 0,
@@ -30,7 +30,7 @@
       "id": "seg-002",
       "source": "Soldul contului curent este disponibil în aplicație.",
       "target": "Your checking account balance is available in the app.",
-      "score": 67.6,
+      "score": 75.7,
       "issues": [
         {
           "kind": "terminology",
@@ -43,8 +43,8 @@
         },
         {
           "kind": "terminology",
-          "severity": "high",
-          "detail": "Should use 'current account' instead of 'checking account' to match the glossary term",
+          "severity": "medium",
+          "detail": "The source term 'current account' is replaced with 'checking account', which does not match the required glossary term.",
           "engine": "model"
         }
       ],
@@ -53,7 +53,7 @@
         "nebius"
       ],
       "naturalness": 8,
-      "accuracy": 8,
+      "accuracy": 7,
       "register_ok": true,
       "suggested_target": "Your current account balance is available in the app.",
       "model_error": "",
@@ -74,7 +74,7 @@
         {
           "kind": "untranslated",
           "severity": "high",
-          "detail": "The phrase 'va rugam' should be translated to 'please' and 'contactati' should be translated to 'contact', 'echipa noastra' should be translated to 'our team'.",
+          "detail": "The phrase 'va rugam contactati echipa noastra de suport' is Romanian and appears untranslated in the English target text.",
           "engine": "model"
         }
       ],
@@ -83,7 +83,7 @@
         "nebius"
       ],
       "naturalness": 2,
-      "accuracy": 6,
+      "accuracy": 3,
       "register_ok": false,
       "suggested_target": "For more information, please contact our support team.",
       "model_error": "",
@@ -113,7 +113,7 @@
         {
           "kind": "omission",
           "severity": "high",
-          "detail": "Omitted important details about checking the card's expiry date",
+          "detail": "The translation omits the requirement to verify the card's expiry date and to retry the transaction; only 'try again' is retained.",
           "engine": "model"
         }
       ],
@@ -121,10 +121,10 @@
         "heuristic",
         "nebius"
       ],
-      "naturalness": 6,
-      "accuracy": 6,
+      "naturalness": 3,
+      "accuracy": 2,
       "register_ok": true,
-      "suggested_target": "If you encounter problems making a payment, please check the expiry date of your card and try again.",
+      "suggested_target": "If you encounter payment problems, check the card's expiry date and retry the transaction.",
       "model_error": "",
       "status": "block"
     },
@@ -149,13 +149,13 @@
         {
           "kind": "accuracy",
           "severity": "high",
-          "detail": "Duplicated word 'the'",
+          "detail": "Duplicate word \"the\" appears twice.",
           "engine": "model"
         },
         {
           "kind": "formatting",
           "severity": "high",
-          "detail": "Unbalanced bracket, should be 'Settings > Account)'",
+          "detail": "Unbalanced opening parenthesis after \"Account\"; missing closing parenthesis.",
           "engine": "model"
         }
       ],
@@ -163,8 +163,8 @@
         "heuristic",
         "nebius"
       ],
-      "naturalness": 8,
-      "accuracy": 8,
+      "naturalness": 4,
+      "accuracy": 5,
       "register_ok": true,
       "suggested_target": "Go to the settings (Settings > Account) to enable the push notification.",
       "model_error": "",
