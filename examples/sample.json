@@ -1,0 +1,32 @@
+[
+  {
+    "id": "seg-001",
+    "source": "Vă rugăm să vă autentificați pentru a continua.",
+    "target": "Please sign in to continue.",
+    "note": "Login screen"
+  },
+  {
+    "id": "seg-002",
+    "source": "Soldul contului curent este disponibil în aplicație.",
+    "target": "Your checking account balance is available in the app.",
+    "note": "Banking UI - glossary term present in source"
+  },
+  {
+    "id": "seg-003",
+    "source": "Pentru mai multe informații, vă rugăm să contactați echipa noastră de suport.",
+    "target": "For more information, va rugam contactati echipa noastra de suport.",
+    "note": "Support footer - untranslated leakage"
+  },
+  {
+    "id": "seg-004",
+    "source": "Dacă întâmpinați probleme la efectuarea plății, vă rugăm să verificați termenul de valabilitate al cardului și să reîncercați tranzacția.",
+    "target": "If you have trouble paying, try again.",
+    "note": "Payment error - probable omission"
+  },
+  {
+    "id": "seg-005",
+    "source": "Accesați setările (Setări > Cont) pentru a activa notificarea push.",
+    "target": "Go to the the settings (Settings > Account to enable the push notification.",
+    "note": "Settings path - duplicated word and unbalanced bracket"
+  }
+]
