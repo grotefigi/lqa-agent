@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LQA demo frame</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1280px; height: 720px; overflow: hidden; }
+  body {
+    background: radial-gradient(1100px 640px at 15% -12%, #123049 0%, #0a1622 48%, #060b11 100%);
+    color: #e8eef5;
+    font-family: "Segoe UI", Arial, sans-serif;
+    padding: 58px 72px;
+    display: flex; flex-direction: column;
+  }
+  #stage { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+  .kicker { font-size: 15px; letter-spacing: 3px; text-transform: uppercase; color: #5f87a8; margin-bottom: 18px; }
+  h1 { font-size: 82px; letter-spacing: -2px; line-height: 1.02; }
+  h2 { font-size: 46px; letter-spacing: -0.8px; line-height: 1.15; margin-bottom: 8px; }
+  .lede { font-size: 25px; color: #9db8ce; line-height: 1.5; margin-top: 18px; }
+  .mono { font-family: Consolas, "Courier New", monospace; }
+  .hit  { color: #ffd479; font-weight: 700; border-bottom: 2px solid #ffd479; }
+  .good { color: #7ee2b8; font-weight: 700; }
+  .bad  { color: #ff8f8f; font-weight: 700; }
+  .dim  { color: #6f8ba4; }
+
+  .card {
+    background: #0d1a26; border: 1px solid #1c3247; border-radius: 14px;
+    padding: 26px 30px; margin-top: 22px;
+  }
+  .row { display: flex; gap: 18px; margin-bottom: 16px; align-items: flex-start; }
+  .row:last-child { margin-bottom: 0; }
+  .lbl { width: 108px; flex: 0 0 108px; font-size: 12px; letter-spacing: 1.4px; text-transform: uppercase; color: #64809a; padding-top: 5px; }
+  .txt { font-size: 22px; line-height: 1.45; }
+
+  .verdict {
+    display: flex; align-items: center; gap: 16px; margin-top: 22px;
+    background: #2a1116; border: 1px solid #5d2029; border-radius: 12px; padding: 18px 22px; font-size: 20px;
+  }
+  .pill { font-size: 14px; font-weight: 800; letter-spacing: 1px; color: #ffb4b4; background: #4a1a22; border-radius: 6px; padding: 6px 12px; }
+
+  ul { list-style: none; }
+  li { font-size: 23px; line-height: 1.9; color: #c6d6e4; }
+  li b { color: #7ee2b8; }
+  .foot { position: absolute; bottom: 30px; left: 72px; right: 72px;
+          display: flex; gap: 30px; font-size: 15px; color: #5d7a94;
+          border-top: 1px solid #16293c; padding-top: 14px; }
+  .foot b { color: #8fa9bf; }
+</style>
+</head>
+<body>
+  <div id="stage"></div>
+  <div class="foot">
+    <div><b>LQA</b> — Localization QA Agent</div>
+    <div><b>25/25</b> tests</div>
+    <div><b>0</b> deps</div>
+    <div>github.com/grotefigi/lqa-agent</div>
+  </div>
+  <script>
+    window.setFrame = function (html) { document.getElementById('stage').innerHTML = html; };
+  </script>
+</body>
+</html>
