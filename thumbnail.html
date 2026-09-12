@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LQA thumbnail</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 675px; overflow: hidden; }
+  body {
+    background: radial-gradient(1200px 620px at 12% -10%, #123049 0%, #0a1622 45%, #070d14 100%);
+    color: #e8eef5;
+    font-family: "Segoe UI", Arial, sans-serif;
+    padding: 40px 48px;
+    display: flex; flex-direction: column;
+  }
+  .top { display: flex; align-items: baseline; gap: 16px; }
+  h1 { font-size: 40px; letter-spacing: -0.5px; }
+  .sub { font-size: 16px; color: #7f9ab3; }
+  .tag {
+    margin-left: auto; font-size: 13px; font-weight: 600; color: #7ee2b8;
+    border: 1px solid #1f5f47; background: #0d2a20; border-radius: 999px; padding: 6px 14px;
+  }
+  .card {
+    margin-top: 26px; background: #0d1a26; border: 1px solid #1c3247;
+    border-radius: 14px; padding: 24px 26px;
+  }
+  .row { display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start; }
+  .row:last-child { margin-bottom: 0; }
+  .lbl {
+    width: 96px; flex: 0 0 96px; font-size: 12px; letter-spacing: 1.2px;
+    text-transform: uppercase; color: #64809a; padding-top: 4px;
+  }
+  .txt { font-size: 19px; line-height: 1.45; }
+  .mono { font-family: Consolas, "Courier New", monospace; font-size: 18px; }
+  .hit { color: #ffd479; font-weight: 700; border-bottom: 2px solid #ffd479; padding-bottom: 1px; }
+  .good { color: #7ee2b8; }
+  .bad { color: #ff8f8f; }
+  .verdict {
+    display: flex; align-items: center; gap: 14px; margin-top: 20px;
+    background: #2a1116; border: 1px solid #5d2029; border-radius: 12px; padding: 16px 20px;
+  }
+  .pill {
+    font-size: 13px; font-weight: 700; letter-spacing: 1px; color: #ffb4b4;
+    background: #4a1a22; border-radius: 6px; padding: 5px 10px;
+  }
+  .verdict span { font-size: 17px; color: #ffd9d9; }
+  .foot {
+    margin-top: auto; display: flex; gap: 26px; font-size: 14px; color: #6d8aa5;
+    border-top: 1px solid #16293c; padding-top: 16px;
+  }
+  .foot b { color: #9fb8cd; font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="top">
+    <h1>LQA</h1>
+    <div class="sub">Localization QA Agent — Romanian&nbsp;&harr;&nbsp;English</div>
+    <div class="tag">terminology-aware</div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="lbl">Source</div>
+      <div class="txt mono">Soldul <span class="hit">contului curent</span> este disponibil &icirc;n aplica&#539;ie.</div>
+    </div>
+    <div class="row">
+      <div class="lbl">Glossary</div>
+      <div class="txt mono">cont curent <span class="good">&rarr;</span> current account</div>
+    </div>
+    <div class="row">
+      <div class="lbl">Target</div>
+      <div class="txt mono">Your <span class="bad">checking account</span> balance is available in the app.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="pill">BLOCK</div>
+    <span><b>terminology</b> — fluent, natural English, and commercially wrong. Caught because
+    &ldquo;cont curent&rdquo; matches the inflected &ldquo;contului curent&rdquo;.</span>
+  </div>
+
+  <div class="foot">
+    <div><b>25/25</b> tests passing</div>
+    <div><b>0</b> third-party deps</div>
+    <div>NVIDIA open models &middot; Nebius Token Factory</div>
+    <div>github.com/grotefigi/lqa-agent</div>
+  </div>
+</body>
+</html>
