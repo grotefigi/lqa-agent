@@ -1,0 +1,198 @@
+{
+  "provider": "nebius",
+  "source_lang": "ro",
+  "target_lang": "en",
+  "score": 66.6,
+  "counts": {
+    "pass": 1,
+    "review": 1,
+    "block": 3
+  },
+  "segments": [
+    {
+      "id": "seg-001",
+      "source": "Vă rugăm să vă autentificați pentru a continua.",
+      "target": "Please sign in to continue.",
+      "score": 100.0,
+      "issues": [],
+      "engines": [
+        "heuristic",
+        "nebius"
+      ],
+      "naturalness": 10,
+      "accuracy": 10,
+      "register_ok": true,
+      "suggested_target": "Please sign in to continue.",
+      "model_error": "",
+      "status": "pass"
+    },
+    {
+      "id": "seg-002",
+      "source": "Soldul contului curent este disponibil în aplicație.",
+      "target": "Your checking account balance is available in the app.",
+      "score": 67.6,
+      "issues": [
+        {
+          "kind": "terminology",
+          "severity": "high",
+          "term": "cont curent",
+          "expected": "current account",
+          "note": "Banking - never use \"checking account\"",
+          "detail": "source term 'cont curent' requires 'current account' in the target, but it is missing",
+          "engine": "heuristic"
+        },
+        {
+          "kind": "terminology",
+          "severity": "high",
+          "detail": "Used 'checking account' instead of required glossary term 'current account'",
+          "engine": "model"
+        }
+      ],
+      "engines": [
+        "heuristic",
+        "nebius"
+      ],
+      "naturalness": 9,
+      "accuracy": 8,
+      "register_ok": true,
+      "suggested_target": "Your current account balance is available in the app.",
+      "model_error": "",
+      "status": "block"
+    },
+    {
+      "id": "seg-003",
+      "source": "Pentru mai multe informații, vă rugăm să contactați echipa noastră de suport.",
+      "target": "For more information, va rugam contactati echipa noastra de suport.",
+      "score": 33.1,
+      "issues": [
+        {
+          "kind": "untranslated",
+          "severity": "high",
+          "detail": "Romanian function words left in the English target: contactati, echipa, noastra, rugam, va",
+          "engine": "heuristic"
+        },
+        {
+          "kind": "untranslated",
+          "severity": "high",
+          "detail": "The majority of the target text remains in Romanian (without diacritics) instead of being translated into English.",
+          "engine": "model"
+        },
+        {
+          "kind": "accuracy",
+          "severity": "high",
+          "detail": "The target does not convey the correct English meaning; only the first clause is translated.",
+          "engine": "model"
+        },
+        {
+          "kind": "fluency",
+          "severity": "high",
+          "detail": "The output is not fluent English; it reads as a transliterated Romanian sentence.",
+          "engine": "model"
+        },
+        {
+          "kind": "terminology",
+          "severity": "medium",
+          "detail": "The term 'echipa noastră de suport' should be rendered as 'our support team' in English.",
+          "engine": "model"
+        }
+      ],
+      "engines": [
+        "heuristic",
+        "nebius"
+      ],
+      "naturalness": 1,
+      "accuracy": 1,
+      "register_ok": false,
+      "suggested_target": "For more information, please contact our support team.",
+      "model_error": "",
+      "status": "block"
+    },
+    {
+      "id": "seg-004",
+      "source": "Dacă întâmpinați probleme la efectuarea plății, vă rugăm să verificați termenul de valabilitate al cardului și să reîncercați tranzacția.",
+      "target": "If you have trouble paying, try again.",
+      "score": 46.6,
+      "issues": [
+        {
+          "kind": "terminology",
+          "severity": "high",
+          "term": "termen de valabilitate",
+          "expected": "expiry date",
+          "note": "Payment",
+          "detail": "source term 'termen de valabilitate' requires 'expiry date' in the target, but it is missing",
+          "engine": "heuristic"
+        },
+        {
+          "kind": "omission",
+          "severity": "high",
+          "detail": "target is only 37% of source length - probable dropped content",
+          "engine": "heuristic"
+        },
+        {
+          "kind": "omission",
+          "severity": "high",
+          "detail": "Missing instruction to check the card's expiry date ('termenul de valabilitate al cardului').",
+          "engine": "model"
+        },
+        {
+          "kind": "register",
+          "severity": "medium",
+          "detail": "Source uses formal polite register ('vă rugăm'), target is informal imperative.",
+          "engine": "model"
+        }
+      ],
+      "engines": [
+        "heuristic",
+        "nebius"
+      ],
+      "naturalness": 7,
+      "accuracy": 3,
+      "register_ok": false,
+      "suggested_target": "If you encounter problems making the payment, please check the card's expiry date and try again.",
+      "model_error": "",
+      "status": "block"
+    },
+    {
+      "id": "seg-005",
+      "source": "Accesați setările (Setări > Cont) pentru a activa notificarea push.",
+      "target": "Go to the the settings (Settings > Account to enable the push notification.",
+      "score": 85.9,
+      "issues": [
+        {
+          "kind": "fluency",
+          "severity": "low",
+          "detail": "duplicated word 'the'",
+          "engine": "heuristic"
+        },
+        {
+          "kind": "formatting",
+          "severity": "medium",
+          "detail": "unbalanced () in target",
+          "engine": "heuristic"
+        },
+        {
+          "kind": "fluency",
+          "severity": "low",
+          "detail": "Duplicated article \"the the\" before \"settings\".",
+          "engine": "model"
+        },
+        {
+          "kind": "formatting",
+          "severity": "medium",
+          "detail": "Missing closing parenthesis after \"Account\".",
+          "engine": "model"
+        }
+      ],
+      "engines": [
+        "heuristic",
+        "nebius"
+      ],
+      "naturalness": 7,
+      "accuracy": 8,
+      "register_ok": true,
+      "suggested_target": "Go to the settings (Settings > Account) to enable the push notification.",
+      "model_error": "",
+      "status": "review"
+    }
+  ]
+}

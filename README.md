@@ -113,6 +113,42 @@ seg-005  review  93.0  fluency, formatting
 The source says `contului curent` (inflected), the glossary demands `current account`,
 the target says `checking account`. Nothing but terminology-aware review catches that.
 
+## Live Token Factory results (real, not illustrative)
+
+Run against **`nvidia/Nemotron-3-Ultra-550b-a55b`** on **Nebius Token Factory**, same
+5-segment sample as above. Raw output in `evidence/nemotron-3-ultra-live-run.json`.
+
+```
+score 66.6/100   ->   1 pass / 1 review / 3 block      (deterministic-only: 85.6/100)
+
+seg-001  pass   100.0  naturalness 10  accuracy 10
+seg-002  block   67.6  naturalness  9  accuracy  8   terminology
+seg-003  block   33.1  naturalness  1  accuracy  1   untranslated, accuracy, fluency, terminology
+seg-004  block   46.6  naturalness  7  accuracy  3   terminology, omission, register
+seg-005  review  85.9  naturalness  7  accuracy  8   fluency, formatting
+```
+
+**The model earns its place on `seg-004`.** The deterministic layer found the omission and the
+missing glossary term. Nemotron additionally flagged a **register violation**:
+
+> `register` — Source uses formal polite register (`vă rugăm`), target is informal imperative.
+
+That is a real localization defect, it is invisible to any regex, and it is exactly the class of
+judgement that makes a translation read as foreign to a native speaker. No amount of
+deterministic checking finds it.
+
+It also produced correct rewrites where the deterministic layer could only complain:
+
+| segment | suggested rewrite |
+|---|---|
+| seg-002 | `Your current account balance is available in the app.` |
+| seg-003 | `For more information, please contact our support team.` |
+| seg-004 | `If you encounter problems making the payment, please check the card's expiry date and try again.` |
+| seg-005 | `Go to the settings (Settings > Account) to enable the push notification.` |
+
+Note the score *drops* from 85.6 to 66.6 when the model is enabled. That is the point: the
+deterministic layer alone is too permissive, because it can only see what it was told to look for.
+
 ## Status
 
 Working: 25/25 tests green; CLI runs end to end; markdown and JSON reports; CI gate;
