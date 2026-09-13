@@ -60,32 +60,56 @@ charged once rather than once per engine.
 No dependencies beyond the Python standard library.
 
 ```bash
-# tests (25 tests, no network, no API key)
+# tests (48 tests, no network, no API key)
 python -m unittest discover -s tests
 
-# review, offline
+# review, offline - straight from a translation memory
 PYTHONPATH=src python -m lqa review \
-    --input examples/sample.json \
+    --input examples/sample.tmx \
     --glossary examples/glossary.csv \
     --format md --output examples/report.md
+
+# review an XLIFF file the way a CAT tool hands it over
+PYTHONPATH=src python -m lqa review --input examples/sample.xlf \
+    --glossary examples/glossary.csv
 
 # review with NVIDIA open models on Nebius
 export NEBIUS_API_KEY=...            # Nebius Token Factory key
 export NEBIUS_MODEL=meta-llama/Llama-3.3-70B-Instruct
-PYTHONPATH=src python -m lqa review --input examples/sample.json \
+PYTHONPATH=src python -m lqa review --input examples/sample.tmx \
     --glossary examples/glossary.csv --format json
 
 # usable as a CI gate
-python -m lqa review --input segs.json --glossary g.csv --fail-under 95   # exits 1 below 95
+python -m lqa review --input segs.tmx --glossary g.csv --fail-under 95   # exits 1 below 95
 ```
 
-### Input format
+### Input formats
+
+LQA reads the formats translation work actually arrives in. The format is
+detected from the extension and then from the content, so a mislabelled file
+still loads.
+
+| Format | Extensions | Shape |
+| --- | --- | --- |
+| **TMX** | `.tmx` | translation memory; `<tu>` with one `<tuv>` per language |
+| **XLIFF 1.2** | `.xlf`, `.xliff` | `<trans-unit>` with `<source>` / `<target>` |
+| **XLIFF 2.0** | `.xlf`, `.xliff` | `<unit>` → `<segment>` with `<source>` / `<target>` |
+| **JSON** | `.json` | the original simple list, below |
 
 ```json
 [
   {"id": "seg-001", "source": "Vă rugăm să vă autentificați.", "target": "Please sign in to continue."}
 ]
 ```
+
+Regional codes are handled: a memory tagged `ro-RO` / `en-GB` matches a request
+for `ro` / `en`. Namespace prefixes are matched on the local tag name because
+exporters disagree about prefixing. Malformed, non-matching or empty input
+raises a clear error rather than silently reporting zero segments.
+
+The `examples/` directory carries a TMX, an XLIFF 1.2 and an XLIFF 2.0 file
+built from the same four segments, and `test_importers.py` asserts the formats
+agree on the segments they share.
 
 ### Glossary format
 
@@ -151,7 +175,8 @@ deterministic layer alone is too permissive, because it can only see what it was
 
 ## Status
 
-Working: 25/25 tests green; CLI runs end to end; markdown and JSON reports; CI gate;
-inflection handling; dedupe; offline and Nebius paths.
+Working: 48/48 tests green; CLI runs end to end; TMX + XLIFF 1.2/2.0 + JSON import;
+markdown and JSON reports; CI gate; inflection handling; dedupe; offline and Nebius paths.
 
-Not yet built: web UI, TMX/XLIFF import, segment-level diff view, automated rewrite application.
+Not yet built: web UI, segment-level diff view, automated rewrite application,
+XLIFF write-back (we read XLIFF but do not yet emit a corrected file).
