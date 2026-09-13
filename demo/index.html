@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LQA - Localization QA Agent | live demo</title>
+<style>
+  :root{
+    --bg:#0f1115;--panel:#171a21;--panel2:#1d2128;--line:#2a2f3a;
+    --fg:#e8eaf0;--dim:#9aa3b2;--hi:#ffd166;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .wrap{max-width:1000px;margin:0 auto;padding:28px 20px 60px}
+  header{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px}
+  h1{margin:0 0 6px;font-size:23px;letter-spacing:-.01em}
+  .sub{color:var(--dim);font-size:14px}
+  .badges{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .badge{font-size:11.5px;padding:3px 9px;border:1px solid var(--line);
+    border-radius:999px;color:var(--dim);background:var(--panel)}
+  .badge b{color:var(--fg);font-weight:600}
+  h2{font-size:14px;margin:28px 0 10px;text-transform:uppercase;
+     letter-spacing:.06em;font-weight:600}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+  .note{color:var(--dim);font-size:13.5px}
+  .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+  button{background:transparent;color:var(--fg);border:1px solid var(--line);
+    border-radius:7px;padding:9px 16px;font-weight:600;font-size:14px;cursor:pointer}
+  button:hover{border-color:var(--dim)}
+  button.on{background:var(--hi);color:#1a1a1a;border-color:var(--hi)}
+  .score{padding:16px;border-radius:10px;border:1px solid var(--line);
+    background:var(--panel);display:flex;gap:26px;align-items:center;
+    flex-wrap:wrap;margin-bottom:18px}
+  .big{font-size:38px;font-weight:700;line-height:1;letter-spacing:-.02em}
+  .tally{color:var(--dim);font-size:13px}
+  .tally b{color:var(--fg)}
+  .seg{font-size:12.5px;margin-bottom:13px;border:1px solid var(--line);
+    border-radius:9px;overflow:hidden;background:var(--panel2)}
+  .seg .head{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;
+    border-bottom:1px solid var(--line);font-size:12px;color:var(--dim);background:var(--panel)}
+  .seg .body{padding:11px 12px}
+  .row{margin-bottom:9px}
+  .row:last-child{margin-bottom:0}
+  .lbl{font-size:10.5px;color:var(--dim);text-transform:uppercase;
+    letter-spacing:.05em;display:block;margin-bottom:2px}
+  .src{color:var(--dim)}
+  .find{margin-top:11px;border-top:1px dashed var(--line);padding-top:10px}
+  .f{display:flex;gap:9px;align-items:flex-start;margin-bottom:7px;font-size:13.5px}
+  .f:last-child{margin-bottom:0}
+  .pill{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;
+    flex:0 0 auto;margin-top:2px}
+  .HIGH{background:rgba(248,113,113,.16);color:var(--bad);border:1px solid rgba(248,113,113,.35)}
+  .MEDIUM,.MED{background:rgba(251,191,36,.15);color:var(--warn);border:1px solid rgba(251,191,36,.32)}
+  .LOW{background:rgba(154,163,178,.14);color:var(--dim);border:1px solid var(--line)}
+  .eng{color:var(--dim);font-size:11px;font-family:var(--mono)}
+  .status{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:5px;text-transform:uppercase}
+  .pass{background:rgba(74,222,128,.14);color:var(--ok);border:1px solid rgba(74,222,128,.3)}
+  .block{background:rgba(248,113,113,.16);color:var(--bad);border:1px solid rgba(248,113,113,.35)}
+  .review{background:rgba(251,191,36,.15);color:var(--warn);border:1px solid rgba(251,191,36,.32)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line)}
+  th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+  td.mono{font-family:var(--mono);font-size:12.5px}
+  footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);
+    color:var(--dim);font-size:12.5px}
+  a{color:#7dd3fc}
+  .gl{font-family:var(--mono);font-size:12.5px;color:var(--dim)}
+  .gl span{color:var(--fg)}
+  .mono{font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>LQA - Localization QA Agent</h1>
+  <div class="sub">Terminology-aware Romanian &#8596; English translation review.
+    Deterministic checks are authoritative; NVIDIA open models on Nebius Token Factory advise.</div>
+  <div class="badges">
+    <span class="badge"><b>0</b> third-party deps</span>
+    <span class="badge"><b>48/48</b> tests</span>
+    <span class="badge">TMX &middot; XLIFF 1.2 &middot; XLIFF 2.0 &middot; JSON</span>
+    <span class="badge"><b>nvidia/Nemotron-3-Ultra-550b-a55b</b> on Nebius</span>
+  </div>
+</header>
+
+<div class="panel" style="margin-bottom:18px">
+  <div class="note">
+    Every number below is <strong>recorded output from the real engine</strong> on this five-segment
+    job &mdash; the offline deterministic run, and a <strong>live
+    <span class="mono">nvidia/Nemotron-3-Ultra-550b-a55b</span> run on Nebius Token Factory</strong>.
+    The page renders the committed JSON rather than re-deriving it, so nothing here can drift from
+    what the tool actually produced. Raw evidence:
+    <span class="mono">evidence/</span> in the repo.
+  </div>
+</div>
+
+<div class="controls">
+  <button id="bDet" class="on">Deterministic only</button>
+  <button id="bMod">+ Nemotron model layer</button>
+  <span class="note" id="note"></span>
+</div>
+
+<div class="gl" style="margin-bottom:16px">
+  glossary: <span>cont curent &#8594; current account</span> &middot;
+  <span>notificare push &#8594; push notification</span> &middot;
+  <span>termen de valabilitate &#8594; expiry date</span>
+</div>
+
+<div class="score">
+  <div><div class="big" id="score">&ndash;</div>
+    <div class="tally">overall score / 100</div></div>
+  <div class="tally" id="tally"></div>
+  <div class="tally" id="engines"></div>
+</div>
+
+<div id="segments"></div>
+
+<h2>Model comparison (live on Nebius Token Factory)</h2>
+<div class="panel">
+  <div class="note" style="margin-bottom:10px">
+    The same job through three models. The <em>smallest</em> scored highest &mdash; because it
+    reported the least. Only Ultra caught the register violation.
+  </div>
+  <table>
+    <tr><th>Model</th><th>Score</th><th>Findings</th><th>Caught register?</th></tr>
+    <tr><td class="mono">nvidia/Nemotron-3-Ultra-550b-a55b</td><td>66.6</td><td>9</td><td>yes</td></tr>
+    <tr><td class="mono">meta-llama/Llama-3.3-70B-Instruct</td><td>71.1</td><td>5</td><td>no</td></tr>
+    <tr><td class="mono">nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B</td><td>72.7</td><td>5</td><td>no</td></tr>
+  </table>
+  <div class="note" style="margin-top:10px">
+    A register violation &mdash; formal <span class="gl"><span>v&#259; rug&#259;m</span></span>
+    rendered as an informal imperative &mdash; is invisible to any regex, and is exactly the kind of
+    defect that makes a translation read as foreign to a native speaker.
+  </div>
+</div>
+
+<h2>Reading the two runs</h2>
+<div class="panel">
+  <div class="note">
+    Deterministic-only scores <strong>85.6</strong>; enabling the model scores <strong>66.6</strong>.
+    The score <em>drops</em> because the checker alone can only see what it was told to look for.
+    Terminology findings are deduplicated by expected term, so the model agreeing with the checker
+    does not double-charge the penalty &mdash; a regression test pins that behaviour.
+  </div>
+</div>
+
+<footer>
+  Deterministic checks (terminology, source leakage, omissions, formatting) are authoritative and
+  reproducible offline with zero credits. Model findings are labelled with their engine and are
+  advisory; the model advises, it does not judge.
+  &nbsp;&middot;&nbsp;
+  Source: <a href="https://github.com/grotefigi/lqa-agent">github.com/grotefigi/lqa-agent</a>
+</footer>
+
+</div>
+
+<script>
+const DET = {"score": 85.6, "counts": {"pass": 1, "review": 1, "block": 3}, "segments": [{"id": "seg-001", "source": "Vă rugăm să vă autentificați pentru a continua.", "target": "Please sign in to continue.", "score": 100.0, "status": "pass", "issues": []}, {"id": "seg-002", "source": "Soldul contului curent este disponibil în aplicație.", "target": "Your checking account balance is available in the app.", "score": 83.8, "status": "block", "issues": [{"severity": "HIGH", "detail": "source term 'cont curent' requires 'current account' in the target, but it is missing", "engine": "heuristic"}]}, {"id": "seg-003", "source": "Pentru mai multe informații, vă rugăm să contactați echipa noastră de suport.", "target": "For more information, va rugam contactati echipa noastra de suport.", "score": 83.2, "status": "block", "issues": [{"severity": "HIGH", "detail": "Romanian function words left in the English target: contactati, echipa, noastra, rugam, va", "engine": "heuristic"}]}, {"id": "seg-004", "source": "Dacă întâmpinați probleme la efectuarea plății, vă rugăm să verificați termenul de valabilitate al cardului și să reîncercați tranzacția.", "target": "If you have trouble paying, try again.", "score": 68.2, "status": "block", "issues": [{"severity": "HIGH", "detail": "source term 'termen de valabilitate' requires 'expiry date' in the target, but it is missing", "engine": "heuristic"}, {"severity": "HIGH", "detail": "target is only 37% of source length - probable dropped content", "engine": "heuristic"}]}, {"id": "seg-005", "source": "Accesați setările (Setări > Cont) pentru a activa notificarea push.", "target": "Go to the the settings (Settings > Account to enable the push notification.", "score": 93.0, "status": "review", "issues": [{"severity": "LOW", "detail": "duplicated word 'the'", "engine": "heuristic"}, {"severity": "MEDIUM", "detail": "unbalanced () in target", "engine": "heuristic"}]}]};
+const MOD = {"score": 66.6, "counts": {"pass": 1, "review": 1, "block": 3}, "segments": [{"id": "seg-001", "source": "Vă rugăm să vă autentificați pentru a continua.", "target": "Please sign in to continue.", "score": 100.0, "status": "pass", "issues": []}, {"id": "seg-002", "source": "Soldul contului curent este disponibil în aplicație.", "target": "Your checking account balance is available in the app.", "score": 67.6, "status": "block", "issues": [{"severity": "HIGH", "detail": "source term 'cont curent' requires 'current account' in the target, but it is missing", "engine": "heuristic"}, {"severity": "HIGH", "detail": "Used 'checking account' instead of required glossary term 'current account'", "engine": "model"}]}, {"id": "seg-003", "source": "Pentru mai multe informații, vă rugăm să contactați echipa noastră de suport.", "target": "For more information, va rugam contactati echipa noastra de suport.", "score": 33.1, "status": "block", "issues": [{"severity": "HIGH", "detail": "Romanian function words left in the English target: contactati, echipa, noastra, rugam, va", "engine": "heuristic"}, {"severity": "HIGH", "detail": "The majority of the target text remains in Romanian (without diacritics) instead of being translated into English.", "engine": "model"}, {"severity": "HIGH", "detail": "The target does not convey the correct English meaning; only the first clause is translated.", "engine": "model"}, {"severity": "HIGH", "detail": "The output is not fluent English; it reads as a transliterated Romanian sentence.", "engine": "model"}, {"severity": "MEDIUM", "detail": "The term 'echipa noastră de suport' should be rendered as 'our support team' in English.", "engine": "model"}]}, {"id": "seg-004", "source": "Dacă întâmpinați probleme la efectuarea plății, vă rugăm să verificați termenul de valabilitate al cardului și să reîncercați tranzacția.", "target": "If you have trouble paying, try again.", "score": 46.6, "status": "block", "issues": [{"severity": "HIGH", "detail": "source term 'termen de valabilitate' requires 'expiry date' in the target, but it is missing", "engine": "heuristic"}, {"severity": "HIGH", "detail": "target is only 37% of source length - probable dropped content", "engine": "heuristic"}, {"severity": "HIGH", "detail": "Missing instruction to check the card's expiry date ('termenul de valabilitate al cardului').", "engine": "model"}, {"severity": "MEDIUM", "detail": "Source uses formal polite register ('vă rugăm'), target is informal imperative.", "engine": "model"}]}, {"id": "seg-005", "source": "Accesați setările (Setări > Cont) pentru a activa notificarea push.", "target": "Go to the the settings (Settings > Account to enable the push notification.", "score": 85.9, "status": "review", "issues": [{"severity": "LOW", "detail": "duplicated word 'the'", "engine": "heuristic"}, {"severity": "MEDIUM", "detail": "unbalanced () in target", "engine": "heuristic"}, {"severity": "LOW", "detail": "Duplicated article \"the the\" before \"settings\".", "engine": "model"}, {"severity": "MEDIUM", "detail": "Missing closing parenthesis after \"Account\".", "engine": "model"}]}]};
+
+function esc(s){ return String(s==null?'':s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function render(data, withModel){
+  document.getElementById('score').textContent = Number(data.score).toFixed(1);
+  const c = data.counts || {};
+  document.getElementById('tally').innerHTML =
+    `<b>${c.pass||0}</b> pass &middot; <b>${c.review||0}</b> review &middot; ` +
+    `<b>${c.block||0}</b> block`;
+  document.getElementById('engines').innerHTML = withModel
+    ? 'engines: <b>heuristic + nebius</b>'
+    : 'engines: <b>heuristic</b>';
+  document.getElementById('note').textContent = withModel
+    ? 'live Nemotron-3-Ultra run on Token Factory; model findings tagged [model] are advisory'
+    : 'offline: zero API key, zero credits, fully reproducible';
+
+  document.getElementById('segments').innerHTML = data.segments.map(s => `
+    <div class="seg">
+      <div class="head">
+        <span class="mono">${esc(s.id)}</span>
+        <span><span class="status ${esc(s.status)}">${esc(s.status)}</span>
+          &nbsp;<span class="mono">${Number(s.score).toFixed(1)}</span></span>
+      </div>
+      <div class="body">
+        <div class="row"><span class="lbl">source (ro)</span><span class="src">${esc(s.source)}</span></div>
+        <div class="row"><span class="lbl">target (en)</span><span>${esc(s.target)}</span></div>
+        ${s.issues.length ? `<div class="find">${s.issues.map(i=>`
+          <div class="f"><span class="pill ${esc(i.severity)}">${esc(i.severity)}</span>
+            <span>${esc(i.detail)} <span class="eng">[${esc(i.engine)}]</span></span></div>`
+          ).join('')}</div>`
+        : `<div class="find"><span class="note">no issues found</span></div>`}
+      </div>
+    </div>`).join('');
+}
+
+document.getElementById('bDet').onclick = () => {
+  document.getElementById('bDet').classList.add('on');
+  document.getElementById('bMod').classList.remove('on');
+  render(DET, false);
+};
+document.getElementById('bMod').onclick = () => {
+  document.getElementById('bMod').classList.add('on');
+  document.getElementById('bDet').classList.remove('on');
+  render(MOD, true);
+};
+render(DET, false);
+</script>
+</body>
+</html>

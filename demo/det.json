@@ -1,0 +1,139 @@
+{
+  "provider": "heuristic-only",
+  "source_lang": "ro",
+  "target_lang": "en",
+  "score": 85.6,
+  "counts": {
+    "pass": 1,
+    "review": 1,
+    "block": 3
+  },
+  "segments": [
+    {
+      "id": "seg-001",
+      "source": "Vă rugăm să vă autentificați pentru a continua.",
+      "target": "Please sign in to continue.",
+      "score": 100.0,
+      "issues": [],
+      "engines": [
+        "heuristic"
+      ],
+      "naturalness": null,
+      "accuracy": null,
+      "register_ok": null,
+      "suggested_target": "",
+      "model_error": "",
+      "status": "pass"
+    },
+    {
+      "id": "seg-002",
+      "source": "Soldul contului curent este disponibil în aplicație.",
+      "target": "Your checking account balance is available in the app.",
+      "score": 83.8,
+      "issues": [
+        {
+          "kind": "terminology",
+          "severity": "high",
+          "term": "cont curent",
+          "expected": "current account",
+          "note": "Banking - never use \"checking account\"",
+          "detail": "source term 'cont curent' requires 'current account' in the target, but it is missing",
+          "engine": "heuristic"
+        }
+      ],
+      "engines": [
+        "heuristic"
+      ],
+      "naturalness": null,
+      "accuracy": null,
+      "register_ok": null,
+      "suggested_target": "",
+      "model_error": "",
+      "status": "block"
+    },
+    {
+      "id": "seg-003",
+      "source": "Pentru mai multe informații, vă rugăm să contactați echipa noastră de suport.",
+      "target": "For more information, va rugam contactati echipa noastra de suport.",
+      "score": 83.2,
+      "issues": [
+        {
+          "kind": "untranslated",
+          "severity": "high",
+          "detail": "Romanian function words left in the English target: contactati, echipa, noastra, rugam, va",
+          "engine": "heuristic"
+        }
+      ],
+      "engines": [
+        "heuristic"
+      ],
+      "naturalness": null,
+      "accuracy": null,
+      "register_ok": null,
+      "suggested_target": "",
+      "model_error": "",
+      "status": "block"
+    },
+    {
+      "id": "seg-004",
+      "source": "Dacă întâmpinați probleme la efectuarea plății, vă rugăm să verificați termenul de valabilitate al cardului și să reîncercați tranzacția.",
+      "target": "If you have trouble paying, try again.",
+      "score": 68.2,
+      "issues": [
+        {
+          "kind": "terminology",
+          "severity": "high",
+          "term": "termen de valabilitate",
+          "expected": "expiry date",
+          "note": "Payment",
+          "detail": "source term 'termen de valabilitate' requires 'expiry date' in the target, but it is missing",
+          "engine": "heuristic"
+        },
+        {
+          "kind": "omission",
+          "severity": "high",
+          "detail": "target is only 37% of source length - probable dropped content",
+          "engine": "heuristic"
+        }
+      ],
+      "engines": [
+        "heuristic"
+      ],
+      "naturalness": null,
+      "accuracy": null,
+      "register_ok": null,
+      "suggested_target": "",
+      "model_error": "",
+      "status": "block"
+    },
+    {
+      "id": "seg-005",
+      "source": "Accesați setările (Setări > Cont) pentru a activa notificarea push.",
+      "target": "Go to the the settings (Settings > Account to enable the push notification.",
+      "score": 93.0,
+      "issues": [
+        {
+          "kind": "fluency",
+          "severity": "low",
+          "detail": "duplicated word 'the'",
+          "engine": "heuristic"
+        },
+        {
+          "kind": "formatting",
+          "severity": "medium",
+          "detail": "unbalanced () in target",
+          "engine": "heuristic"
+        }
+      ],
+      "engines": [
+        "heuristic"
+      ],
+      "naturalness": null,
+      "accuracy": null,
+      "register_ok": null,
+      "suggested_target": "",
+      "model_error": "",
+      "status": "review"
+    }
+  ]
+}
