@@ -10,29 +10,10 @@ import json
 import sys
 
 from .glossary import load_glossary
+from .importers import load_segments, ImportError_
 from .providers import get_provider, ProviderError
 from .report import to_json, to_markdown
 from .reviewer import Segment, review_document
-
-
-def _load_segments(path: str) -> list[Segment]:
-    with open(path, "r", encoding="utf-8") as fh:
-        data = json.load(fh)
-    if isinstance(data, dict):
-        data = data.get("segments", [])
-    if not isinstance(data, list):
-        raise ValueError("input must be a JSON list of segments, or {'segments': [...]}")
-    out: list[Segment] = []
-    for i, item in enumerate(data, start=1):
-        if not isinstance(item, dict):
-            raise ValueError(f"segment {i} is not an object")
-        out.append(Segment(
-            id=str(item.get("id", i)),
-            source=str(item.get("source", "")),
-            target=str(item.get("target", "")),
-            note=str(item.get("note", "")),
-        ))
-    return out
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -41,7 +22,9 @@ def build_parser() -> argparse.ArgumentParser:
     sub = p.add_subparsers(dest="command", required=True)
 
     r = sub.add_parser("review", help="review translated segments against a glossary")
-    r.add_argument("--input", required=True, help="JSON file: list of {id, source, target}")
+    r.add_argument("--input", required=True,
+                   help="segments to review: .tmx, .xlf/.xliff or .json "
+                        "(format is auto-detected)")
     r.add_argument("--glossary", help="CSV/TSV glossary: source,target[,note]")
     r.add_argument("--source-lang", default="ro")
     r.add_argument("--target-lang", default="en")
@@ -61,7 +44,10 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "review":
         try:
-            segments = _load_segments(args.input)
+            segments = load_segments(args.input, args.source_lang, args.target_lang)
+        except ImportError_ as exc:
+            print(f"error: could not read input: {exc}", file=sys.stderr)
+            return 2
         except Exception as exc:
             print(f"error: could not read input: {exc}", file=sys.stderr)
             return 2

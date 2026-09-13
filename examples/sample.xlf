@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file original="banking-app.ro" source-language="ro" target-language="en" datatype="plaintext">
+    <body>
+      <trans-unit id="seg-001" resname="account.balance.label">
+        <source>Soldul contului curent este disponibil în aplicație.</source>
+        <target>Your current account balance is available in the app.</target>
+      </trans-unit>
+      <trans-unit id="seg-002" resname="support.contact.hint">
+        <source>Pentru informații suplimentare, vă rugăm să contactați echipa de suport.</source>
+        <target>For more info contact support.</target>
+        <note>Formal register required - customer-facing legal text</note>
+      </trans-unit>
+      <trans-unit id="seg-003" resname="payment.error">
+        <source>Dacă întâmpinați probleme la efectuarea plății, verificați data de expirare a cardului.</source>
+        <target>If you encounter problems making the payment, check the card expiry date.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tmx version="1.4">
+  <header creationtool="LQA demo" segtype="sentence" o-tmf="plain"
+          adminlang="en" srclang="ro" datatype="plaintext"/>
+  <body>
+    <tu tuid="seg-001">
+      <note>Account balance line from the banking app</note>
+      <tuv xml:lang="ro"><seg>Soldul contului curent este disponibil în aplicație.</seg></tuv>
+      <tuv xml:lang="en"><seg>Your current account balance is available in the app.</seg></tuv>
+    </tu>
+    <tu tuid="seg-002">
+      <tuv xml:lang="ro"><seg>Pentru informații suplimentare, vă rugăm să contactați echipa de suport.</seg></tuv>
+      <tuv xml:lang="en"><seg>For more info contact support.</seg></tuv>
+    </tu>
+    <tu tuid="seg-003">
+      <tuv xml:lang="ro"><seg>Dacă întâmpinați probleme la efectuarea plății, verificați data de expirare a cardului.</seg></tuv>
+      <tuv xml:lang="en"><seg>If you encounter problems making the payment, check the card expiry date.</seg></tuv>
+    </tu>
+    <tu tuid="seg-004">
+      <tuv xml:lang="ro"><seg>Accesați setările pentru a activa notificările push.</seg></tuv>
+      <tuv xml:lang="en"><seg>Go to the settings to enable the push notification.</seg></tuv>
+    </tu>
+  </body>
+</tmx>

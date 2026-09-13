@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tmx version="1.4">
+  <header srclang="ro" adminlang="en" segtype="sentence"/>
+  <body>
+    <!-- 1. CLEAN: inflected source term, glossary term present in target -->
+    <tu tuid="ok-inflected">
+      <tuv xml:lang="ro"><seg>Soldul contului curent este disponibil.</seg></tuv>
+      <tuv xml:lang="en"><seg>Your current account balance is available.</seg></tuv>
+    </tu>
+
+    <!-- 2. VIOLATION: inflected source term 'contului curent' but the target
+         uses the forbidden synonym 'checking account'. The inflection matcher
+         must still find it and flag the glossary breach. -->
+    <tu tuid="bad-inflected">
+      <tuv xml:lang="ro"><seg>Soldul contului curent este disponibil.</seg></tuv>
+      <tuv xml:lang="en"><seg>Your checking account balance is available.</seg></tuv>
+    </tu>
+
+    <!-- 3. TRAP: the word 'contact' must NOT be treated as the glossary term
+         'cont curent' just because they share the prefix 'cont'. -->
+    <tu tuid="trap-contact">
+      <tuv xml:lang="ro"><seg>Vă rugăm să contactați echipa noastră.</seg></tuv>
+      <tuv xml:lang="en"><seg>Please contact our team.</seg></tuv>
+    </tu>
+
+    <!-- 4. VIOLATION: untranslated Romanian left in the English target -->
+    <tu tuid="leakage">
+      <tuv xml:lang="ro"><seg>Notificarea push este activată.</seg></tuv>
+      <tuv xml:lang="en"><seg>Notificarea push este activată.</seg></tuv>
+    </tu>
+  </body>
+</tmx>

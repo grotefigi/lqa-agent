@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="ro" trgLang="en">
+  <file id="f1" original="banking-app.ro">
+    <unit id="u1">
+      <segment>
+        <source>Soldul contului curent este disponibil în aplicație.</source>
+        <target>Your current account balance is available in the app.</target>
+      </segment>
+    </unit>
+    <unit id="u2">
+      <notes>
+        <note>Marketing tone, informal is fine</note>
+      </notes>
+      <segment>
+        <source>Activează notificările pentru a nu rata nicio tranzacție.</source>
+        <target>Turn on notifications so you don't miss any transaction.</target>
+      </segment>
+    </unit>
+    <unit id="u3">
+      <segment>
+        <source>Comisionul de administrare se aplică lunar.</source>
+        <target>Cont curent se aplică lunar.</target>
+      </segment>
+    </unit>
+  </file>
+</xliff>
